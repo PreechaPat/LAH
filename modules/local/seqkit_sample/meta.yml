@@ -1,0 +1,40 @@
+name: "seqkit_sample"
+description: "Subsamples sequencing reads using seqkit sample."
+keywords:
+  - "subsample"
+  - "seqkit"
+  - "sampling"
+tools:
+  - "seqkit":
+      description: "A cross-platform and ultrafast toolkit for FASTA/Q file manipulation."
+      homepage: "https://bioinf.shenwei.me/seqkit/"
+      documentation: "https://bioinf.shenwei.me/seqkit/usage/"
+      tool_dev_url: "https://github.com/shenwei356/seqkit"
+      licence: "MIT"
+input:
+  - meta:
+      type: map
+      description: |
+        Groovy Map with sample information
+        e.g. [ id:'test', single_end:false ]
+  - reads:
+      type: file
+      description: |
+        List of input FastQ files of size 1 and 2 for single-end and paired-end data,
+        respectively.
+output:
+  - meta:
+      type: map
+      description: |
+        Groovy Map with sample information
+        e.g. [ id:'test', single_end:false ]
+  - reads:
+      type: file
+      description: Subsampled FastQ file.
+      pattern: "*.fastq.gz"
+  - versions:
+      type: file
+      description: File containing software versions
+      pattern: "versions.yml"
+authors:
+  - "preecha"

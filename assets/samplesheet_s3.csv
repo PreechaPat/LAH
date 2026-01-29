@@ -1,0 +1,7 @@
+sample,fastq
+S001,s3://silol-kash/assets/temp/test_data/S001.fastq.gz
+S002,s3://silol-kash/assets/temp/test_data/S002.fastq.gz
+S003,s3://silol-kash/assets/temp/test_data/S003.fastq.gz
+S004,s3://silol-kash/assets/temp/test_data/S004.fastq.gz
+S005,s3://silol-kash/assets/temp/test_data/S005.fastq.gz
+N001,s3://silol-kash/assets/temp/test_data/N001.fastq.gz

@@ -1,0 +1,39 @@
+name: "download_unpack"
+description: "Downloads a file from a URL, S3 or local path and unpacks it. Nextflow handles the download, this module just unpacks."
+keywords:
+  - download
+  - unpack
+  - tar
+  - gzip
+  - s3
+  - http
+tools:
+  - tar:
+      description: "tar is a command-line utility for creating, maintaining, modifying, and extracting tar archives."
+      homepage: "https://www.gnu.org/software/tar/"
+      documentation: "https://www.gnu.org/software/tar/manual/html_node/tar_toc.html"
+input:
+  - meta:
+      type: map
+      description: |
+        Groovy Map containing sample information
+        e.g. [ id:'test' ]
+  - archive:
+      type: file
+      description: "Archive file to unpack. Can be a local file, an HTTP(s) URL or an S3 path."
+output:
+  - meta:
+      type: map
+      description: |
+        Groovy Map containing sample information
+        e.g. [ id:'test' ]
+  - versions:
+      type: file
+      description: File containing software versions
+      pattern: "versions.yml"
+  - unpacked:
+      type: directory
+      description: Directory containing the unpacked files.
+      pattern: "output"
+authors:
+  - "Gemini"
