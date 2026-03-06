@@ -5,6 +5,7 @@
 */
 include { SEQKIT_SAMPLE } from '../modules/local/seqkit_sample/main'
 include { SEQKIT_FQ2FA } from '../modules/local/seqkit_fq2fa/main'
+include { CONCAT_FASTA } from '../modules/local/concat.nf'
 include { FASTQC } from '../modules/nf-core/fastqc/main'
 include { MULTIQC } from '../modules/nf-core/multiqc/main'
 include { paramsSummaryMap } from 'plugin/nf-schema'
@@ -27,12 +28,13 @@ workflow LAH {
 
 	ch_versions = channel.empty()
 
-    // ADDED: Download and unpack BLAST database
-    DOWNLOAD_UNPACK (
-        channel.of([ [id: 'blastdb'], params.blastdb_url ])
-    )
-    ch_versions = ch_versions.mix(DOWNLOAD_UNPACK.out.versions.first())
-    blastdb_unpacked = DOWNLOAD_UNPACK.out.unpacked // This channel now holds the path to the unpacked BLASTDB
+	// ADDED: Download and unpack BLAST database
+	DOWNLOAD_UNPACK(
+		channel.of([[id: 'blastdb'], params.blastdb_url])
+	)
+	ch_versions = ch_versions.mix(DOWNLOAD_UNPACK.out.versions.first())
+	blastdb_unpacked = DOWNLOAD_UNPACK.out.unpacked
+	// This channel now holds the path to the unpacked BLASTDB
 	ch_multiqc_files = channel.empty()
 	if (params.subsample_n != 0) {
 		SEQKIT_SAMPLE(
@@ -48,6 +50,8 @@ workflow LAH {
 
 	SEQKIT_FQ2FA(SEQKIT_SAMPLE.out.reads)
 
+	SEQKIT_FQ2FA.out.fasta | map { it[1] } | collect | set { report_ch }
+	CONCAT_FASTA(report_ch)
 	//
 	// MODULE: Run FastQC
 	//
